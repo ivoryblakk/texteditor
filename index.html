@@ -1,0 +1,447 @@
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <link href="/jquery-ui.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="https://code.jquery.com/jquery-1.7.0.min.js" integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84="
+            crossorigin="anonymous"></script>
+        <style>
+            .resp-container {
+                position: relative;
+                overflow: hidden;
+                padding-top: 56.25%;
+            }
+
+            .resp-iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 50%;
+                height: 50%;
+                border: 0;
+            }
+
+            .texteditor_menu {
+                width: 200px;
+            }
+
+            .ui-menu {
+                width: 150px;
+            }
+
+            .navbar {
+                overflow: hidden;
+                background-color: #333;
+            }
+
+            /* Navigation links */
+            .navbar a {
+                float: left;
+                font-size: 16px;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            /* The subnavigation menu */
+            .subnav {
+                float: left;
+                overflow: hidden;
+            }
+
+            /* Subnav button */
+            .subnav .subnavbtn {
+                font-size: 16px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 14px 16px;
+                background-color: inherit;
+                font-family: inherit;
+                margin: 0;
+            }
+
+            /* Add a red background color to navigation links on hover */
+            .navbar a:hover,
+            .subnav:hover .subnavbtn {
+                background-color: rgb(9, 165, 126);
+            }
+
+            /* Style the subnav content - positioned absolute */
+            .subnav-content {
+                display: none;
+                position: absolute;
+                left: 0;
+                background-color: grey;
+                width: 100%;
+                z-index: 1;
+            }
+
+            /* Style the subnav links */
+            .subnav-content a {
+                float: left;
+                color: white;
+                text-decoration: none;
+            }
+
+            /* Add a grey background color on hover */
+            .subnav-content a:hover {
+                background-color: #eee;
+                color: black;
+            }
+
+            /* When you move the mouse over the subnav container, open the subnav content */
+            .subnav:hover .subnav-content {
+                display: block;
+            }
+        </style>
+    </head>
+    <!-- <div class="wrap">
+        <div class="toolbar">
+            <button id="print">Save</button>
+            <button id="undo">Update</button>
+            <button id="redo">Play</button>
+            <select id="texteditorToolbar_texteditor">
+                <option selected disabled>Zoom</option>
+                <option>50%</option>
+                <option>75%</option>
+                <option>90%</option>
+                <option>100%</option>
+                <option>125%</option>
+                <option>150%</option>
+                <option>200%</option>
+            </select>
+            <select id="fontname">
+                <option selected disabled>Font</option>
+                <option>Arial</option>
+                <option>Comic Sans MS</option>
+                <option>Courier New</option>
+                <option>Georgia</option>
+                <option>Impact</option>
+                <option>Lucida Grande</option>
+                <option>Times New Roman</option>
+                <option>Verdana</option>
+            </select>
+            <select id="fontsize">
+                <option selected disabled>Size</option>
+                <option value="1">8px</option>
+                <option value="2">9px</option>
+                <option value="3">10px</option>
+                <option value="4">11px</option>
+                <option value="5">12px</option>
+                <option value="6">14px</option>
+                <option value="7">18px</option>
+                <option value="8">24px</option>
+                <option value="9">30px</option>
+                <option value="10">36px</option>
+            </select>
+            <select id="hilitecolor" title="Background color">
+                <option selected disabled>Highlight</option>
+                <option value="white">None</option>
+                <option value="red">Red</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="grey">Grey</option>
+                <option value="purple">Purple</option>
+                <option value="orange">Orange</option>
+            </select>
+            <select id="forecolor" title="Color">
+                <option selected disabled>Color</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="red">Red</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="#ccc">Grey</option>
+                <option value="purple">Purple</option>
+                <option value="orange">Orange</option>
+            </select>
+            <button id="bold">B</button>
+            <button id="italic">I</button>
+            <button id="underline">U</button>
+
+        </div>
+
+
+    </div>
+    <div id="texteditor_menu">
+        <ul id="menu">
+            <li>
+                <div><span class="ui-icon ui-icon-disk"></span>Save</div>
+            </li>
+            <li>-</li>
+            <li>
+                <div><span class="ui-icon ui-icon-zoomin"></span>Zoom In</div>
+            </li>
+            <li>
+                <div><span class="ui-icon ui-icon-zoomout"></span>Zoom Out</div>
+            </li>
+            <li class="ui-state-disabled">
+                <div><span class="ui-icon ui-icon-print"></span>Print...</div>
+            </li>
+            <li>
+                <div>Playback</div>
+                <ul>
+                    <li>
+                        <div><span class="ui-icon ui-icon-seek-start"></span>Prev</div>
+                    </li>
+                    <li>
+                        <div><span class="ui-icon ui-icon-stop"></span>Stop</div>
+                    </li>
+                    <li>
+                        <div><span class="ui-icon ui-icon-play"></span>Play</div>
+                    </li>
+                    <li>
+                        <div><span class="ui-icon ui-icon-seek-end"></span>Next</div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <div>Learn more about this menu</div>
+            </li>
+        </ul>
+    </div>
+    <h2 class="demoHeaders">Accordion</h2>
+    <div id="accordion">
+        <h3>First</h3>
+        <div>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
+        <h3>Second</h3>
+        <div>Phasellus mattis tincidunt nibh.</div>
+        <h3>Third</h3>
+        <div>Nam dui erat, auctor a, dignissim quis.</div>
+    </div> -->
+
+    <body>
+
+        <div class="navbar">
+            <div class="subnav">
+                <button class="subnavbtn">Triggers <i class="fa fa-caret-down"></i></button>
+                <div class="subnav-content">
+                    <a href="#company">some trigger</a>
+                    <a href="#team">some trigger</a>
+                    <a href="#careers">some trigger</a>
+                </div>
+            </div>
+            <div class="subnav">
+                <button class="subnavbtn">Texteditor <i class="fa fa-caret-down"></i></button>
+                <div class="subnav-content">
+                    <a style="background-color: purple" href="#bring">Hack</a>
+                    <a style="background-color: purple" href="#deliver">Text Objects</a>
+                    <a style="background-color: purple" href="#package">Preformats</a>
+                    <a style="background-color: purple" href="#express">Change All</a>
+                    <a style="background-color: purple" href="#express">Import lang</a>
+                </div>
+            </div>
+            <div class="subnav">
+                <button class="subnavbtn">Reel Stops/Debugging <i class="fa fa-caret-down"></i></button>
+                <div class="subnav-content">
+                    <a href="#link1">clear</a>
+                    <a href="#link1">hide</a>
+                    <a href="#link1">auto</a>
+                    <a href="#link1">unmute</a>
+                    <a href="#link1">MaxMeters</a>
+
+                </div>
+            </div>
+            <button class="w3-button" style="background-color: orange">Save</button>
+            <button class="w3-button" style="background-color: rgb(219, 0, 0)">Update TextObj</button>
+            <button class="w3-button" style="background-color: blue">Update Preformat</button>
+            <button class="w3-button" style="background-color: green">Play/Pause</button>
+            <button class="w3-button" style="background-color: yellow">Highlight</button>
+        </div>
+        <div>
+        
+        </div>
+
+
+        <div id="dialog" title="Basic dialog">
+            <p>This is an animated dialog which is useful for displaying information. The dialog window can be moved,
+                resized and closed with the 'x' icon.
+                        <label for="spinner">Select a value:</label>
+                        <input id="spinner" name="value">
+                    </p>
+        
+        </div>
+
+        <button id="opener">Open Dialog</button>
+
+        <div class="resp-container">
+            <iframe class="resp-iframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ" gesture="media" allow="encrypted-media"
+                allowfullscreen></iframe>
+        </div>
+        <script src="jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+        <script src="/jquery-ui.js"></script>
+
+
+
+
+
+
+        <script>
+            $(function () {
+                $("#spinner").spinner({
+                    spin: function (event, ui) {
+                        if (ui.value > 10) {
+                            $(this).spinner("value", -10);
+                            return false;
+                        } else if (ui.value < -10) {
+                            $(this).spinner("value", 10);
+                            return false;
+                        }
+                    }
+                });
+            });
+            $(function () {
+                $("#dialog").dialog({
+                    autoOpen: false,
+                    show: {
+                        effect: "blind",
+                        duration: 1000
+                    },
+                    hide: {
+                        effect: "explode",
+                        duration: 1000
+                    }
+                });
+
+                $("#opener").on("click", function () {
+                    $("#dialog").dialog("open");
+                });
+            });
+            $("#accordion").accordion();
+            $("#menu").menu();
+            $("#menu").menu("collapse", "click");
+            $("#menu").menu("collapseAll", null, true);
+
+
+
+            var availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+            $("#autocomplete").autocomplete({
+                source: availableTags
+            });
+
+
+
+            $("#button").button();
+            $("#button-icon").button({
+                icon: "ui-icon-gear",
+                showLabel: false
+            });
+
+
+
+            $("#radioset").buttonset();
+
+
+
+            $("#controlgroup").controlgroup();
+
+
+
+            $("#tabs").tabs();
+
+
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                width: 400,
+                buttons: [{
+                        text: "Ok",
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                    {
+                        text: "Cancel",
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            });
+
+            // Link to open the dialog
+            $("#dialog-link").click(function (event) {
+                $("#dialog").dialog("open");
+                event.preventDefault();
+            });
+
+
+
+            $("#datepicker").datepicker({
+                inline: true
+            });
+
+
+
+            $("#slider").slider({
+                range: true,
+                values: [17, 67]
+            });
+
+
+
+            $("#progressbar").progressbar({
+                value: 20
+            });
+
+
+
+            $("#spinner").spinner();
+
+
+
+            $("#menu").menu();
+
+
+
+            $("#tooltip").tooltip();
+
+
+
+            $("#selectmenu").selectmenu();
+
+
+            // Hover states on the static widgets
+            $("#dialog-link, #icons li").hover(
+                function () {
+                    $(this).addClass("ui-state-hover");
+                },
+                function () {
+                    $(this).removeClass("ui-state-hover");
+                }
+            );
+        </script>
+    </body>
+
+</html>
